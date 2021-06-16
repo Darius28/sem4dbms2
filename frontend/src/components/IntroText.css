@@ -1,0 +1,27 @@
+.intro-div-container {
+  display: flex;
+  justify-content: center;
+  height: 50vh;
+  align-items: center;
+}
+
+.intro-container {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  width: 60%;
+  background-color: white;
+  opacity: 0.8;
+  border-radius: 0.7rem;
+  justify-content: center;
+  height: 50%;
+}
+
+.intro-header {
+  font-size: 2rem;
+}
+
+.intro-desc {
+  font-size: 1.5rem;
+}

@@ -1,0 +1,36 @@
+.user-buttons__container {
+  display: flex;
+  justify-content: center;
+}
+
+.user-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  background-color: white;
+  opacity: 0.9;
+  width: 40%;
+  border-radius: 0.7rem;
+}
+
+.user-link {
+  margin: 1rem;
+  color: black;
+  text-decoration: none;
+}
+
+.user-link:hover,
+.user-link:active {
+  cursor: pointer;
+}
+
+.signup:hover,
+.signup:active {
+  color: rgb(255, 166, 0);
+}
+
+.login:hover,
+.login:active {
+  color: rgb(26, 158, 26);
+}

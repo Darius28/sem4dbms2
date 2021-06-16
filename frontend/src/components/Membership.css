@@ -1,0 +1,75 @@
+.membership-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  flex-direction: column;
+  background-color: #41a239;
+  align-items: center;
+}
+
+.membership-header {
+  color: white;
+}
+
+.membership-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  height: 50vh;
+}
+
+.membership-plan {
+  color: white;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid black;
+  text-align: center;
+  border-radius: 0.5rem;
+}
+
+.membership-plan__heading {
+  color: orange;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.membership-plan__duration {
+  font-size: 1.5rem;
+}
+
+.membership-plan__desc {
+  font-size: 1.3rem;
+}
+
+.membership-plan__price {
+  font-weight: 400;
+    font-size: 2rem;
+    margin: 0 auto;
+    width: 90%;
+    border: 2px solid orange;
+    border-radius: 0.5rem;
+    padding: 0.3rem;
+}
+
+.membership-benefits {
+  display: flex;
+  padding: 0.5rem;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  width: 90%;
+  justify-content: space-around;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.membership-plan__add__container {
+  margin: 1.5rem 0;
+}
+
+.membership-plan__add {
+  background-color: #ed4a4a;
+  color: white;
+  padding: 0.4rem;
+    border-radius: 0.5rem;
+}

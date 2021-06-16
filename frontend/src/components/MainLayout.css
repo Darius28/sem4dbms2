@@ -1,0 +1,12 @@
+.main-layout {
+    height: 100vh;
+}
+
+.intro-text-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.intro-text__top {
+    height: 5rem;
+}
