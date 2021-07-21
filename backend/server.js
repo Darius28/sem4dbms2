@@ -63,9 +63,7 @@ app.post("/users/signup", async (req, res) => {
           } else {
             invalidTerm = "Phone No.";
           }
-          return res
-            .status(400)
-            .send(`${invalidTerm} is already taken.`);
+          return res.status(400).send(`${invalidTerm} is already taken.`);
         }
       }
     );
@@ -90,7 +88,6 @@ app.post("/users/login", async (req, res) => {
         }
         // console.log(rows);
         // res.json(rows);
-
         // console.log("rows.length", rows.length)
         if (rows.length === 0) {
           return res.status(400).send("Email doesn't exist");
@@ -103,9 +100,12 @@ app.post("/users/login", async (req, res) => {
           if (match === false) {
             return res.status(400).send("Incorrect Password!");
           } else {
+            const loginTime = new Date().toLocaleString();
+
             return res.json({
               email: rows[0].email,
               name: rows[0].name,
+              loginTime,
             });
           }
         }
@@ -114,6 +114,25 @@ app.post("/users/login", async (req, res) => {
   } catch (err) {
     return res.status(400).send(err);
   }
+});
+
+app.post("/users/record-session", async (req, res) => {
+  const { email, loginTime, logoutTime } = req.body;
+  console.log("LOGOUT LOG DATA ====> ", email, loginTime, logoutTime);
+  const logUserActivityQuery =
+    "INSERT INTO userlogin (email, logintime, logouttime) VALUES (?, ?, ?)";
+  connection.query(
+    logUserActivityQuery,
+    [email, loginTime, logoutTime],
+    async (err, rows, fields) => {
+      if (!err) {
+        return res.sendStatus(200);
+      } else {
+        console.log(err);
+        return res.status(400).send(err);
+      }
+    }
+  );
 });
 
 app.get("/admin/members", async (req, res) => {

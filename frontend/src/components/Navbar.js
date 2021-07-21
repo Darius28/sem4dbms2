@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import "./Navbar.css";
+import axios from "axios";
 import { Menu } from "antd";
 import {
   StarOutlined,
@@ -23,20 +24,32 @@ export default function Navbar() {
 
   const [logout, setLogout] = useState(false);
 
-  const logoutHandler = () => {
-    setLogout(true);
-    userCtx.dispatch({
-      type: "LOGOUT",
-    });
-    localStorage.removeItem("user");
-    localStorage.removeItem("isAdmin");
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("membership");
-    toast("Logged out successfully!");
-    history.replace("/");
+  const logoutHandler = async () => {
+    try {
+      setLogout(true);
+      const logoutTime = new Date().toLocaleString();
+      const loggedInTime = JSON.parse(localStorage.getItem("user")).loginTime;
+      const email = JSON.parse(localStorage.getItem("user")).email;
+      // console.log(logoutTime, loggedInTime);
+      console.log("logout reached");
+      await axios.post("http://localhost:4000/users/record-session", {
+        email,
+        logoutTime,
+        loginTime: loggedInTime,
+      });
+      userCtx.dispatch({
+        type: "LOGOUT",
+      });
+      localStorage.removeItem("user");
+      localStorage.removeItem("isAdmin");
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("membership");
+      toast("Logged out successfully!");
+      history.replace("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
-
-  console.log("navbar", userCtx.state);
 
   return (
     <>

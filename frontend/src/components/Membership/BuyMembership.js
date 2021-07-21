@@ -7,6 +7,9 @@ import "./BuyMembership.css";
 export default function BuyMembership() {
   const { state } = useContext(UserContext);
   console.log("STATE.MEMBERSHIP", state.membership);
+  const addMembershipHandler = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       <Navbar />
@@ -50,6 +53,9 @@ export default function BuyMembership() {
               <div className="mem-form-item">
                 <label>Pincode: </label>
                 <input type="number" />
+              </div>
+              <div className="mem-form-item">
+                <button onClick={addMembershipHandler}>Start Membership</button>
               </div>
             </div>
           </form>
