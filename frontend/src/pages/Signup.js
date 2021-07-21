@@ -10,37 +10,59 @@ import { Link } from "react-router-dom";
 export default function Signup() {
   const history = useHistory();
   const nameRef = useRef();
+  const usernameRef = useRef();
   const passRef = useRef();
   const cpassRef = useRef();
   const emailRef = useRef();
-  const phoneRef = useRef()
+  const phoneRef = useRef();
+  const dateRef = useRef();
+  const [gender, setGender] = useState("");
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     const name = nameRef.current.value;
+    const username = usernameRef.current.value;
     const email = emailRef.current.value;
     const password = passRef.current.value;
     const cpassword = cpassRef.current.value;
+    const phone = phoneRef.current.value;
+    const dob = dateRef.current.value;
 
     try {
-      const sno = Math.round(Math.random() * 10000);
-      console.log("just b4 axios")
-      await axios.post("http://localhost:4000/users/signup", {
-        sno,
-        name,
-        email,
-        password,
-        cpassword,
-      });
-      toast.success("Signup successful! Login to Proceed.");
-      nameRef.current.value = "";
-      emailRef.current.value = "";
-      passRef.current.value = "";
-      cpassRef.current.value = "";
+      await axios
+        .post("http://localhost:4000/users/signup", {
+          name,
+          username,
+          email,
+          password,
+          cpassword,
+          phone,
+          dob,
+          gender,
+        })
+        .then(() => {
+          toast.success("Signup successful! Login to Proceed.");
+          nameRef.current.value = "";
+          usernameRef.current.value = "";
+          emailRef.current.value = "";
+          passRef.current.value = "";
+          cpassRef.current.value = "";
+          phoneRef.current.value = "";
+          dateRef.current.value = "";
+        });
+      // toast.success("Signup successful! Login to Proceed.");
+      // nameRef.current.value = "";
+      // emailRef.current.value = "";
+      // passRef.current.value = "";
+      // cpassRef.current.value = "";
     } catch (err) {
       console.log(err);
       toast.error(err.response.data);
     }
+  };
+
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
   };
 
   return (
@@ -56,11 +78,12 @@ export default function Signup() {
             <div className="signup-form">
               <form className="form" onSubmit={onSubmitHandler}>
                 <div className="form-item">
-                  <label className="form-item__label">Email </label>
+                  <label className="form-item__label">Name </label>
                   <input
                     className="form-item__input"
-                    type="email"
-                    ref={emailRef}
+                    type="text"
+                    ref={nameRef} 
+                    required
                   />
                 </div>
                 <div className="form-item">
@@ -68,15 +91,17 @@ export default function Signup() {
                   <input
                     className="form-item__input"
                     type="text"
-                    ref={nameRef}
+                    ref={usernameRef}
+                    required
                   />
                 </div>
                 <div className="form-item">
-                  <label className="form-item__label">Phone </label>
+                  <label className="form-item__label">Email </label>
                   <input
                     className="form-item__input"
-                    type="number"
-                    ref={phoneRef}
+                    type="email"
+                    ref={emailRef}
+                    required
                   />
                 </div>
                 <div className="form-item">
@@ -85,6 +110,7 @@ export default function Signup() {
                     className="form-item__input"
                     type="password"
                     ref={passRef}
+                    required
                   />
                 </div>
                 <div className="form-item">
@@ -93,7 +119,55 @@ export default function Signup() {
                     className="form-item__input"
                     type="password"
                     ref={cpassRef}
+                    required
                   />
+                </div>
+                <div className="form-item">
+                  <label className="form-item__label">Phone No. </label>
+                  <input
+                    className="form-item__input"
+                    type="tel"
+                    ref={phoneRef}
+                    required
+                  />
+                </div>
+                <div className="form-item">
+                  <label className="form-item__label">Date of Birth </label>
+                  <input
+                    className="form-item__input"
+                    type="date"
+                    ref={dateRef}
+                    required
+                  />
+                </div>
+                <div className="form-item">
+                  <div>
+                    <label className="form-item__label">Gender: </label>
+                  </div>
+                  <div className="gender-radio">
+                    <div>
+                      <input
+                        onChange={handleGenderChange}
+                        name="gender"
+                        value="male"
+                        className="form-item__input"
+                        type="radio"
+                        required
+                      />
+                      <label className="gender-label">Male</label>
+                    </div>
+                    <div>
+                      <input
+                        onChange={handleGenderChange}
+                        name="gender"
+                        value="female"
+                        className="form-item__input"
+                        type="radio"
+                        required
+                      />
+                      <label className="gender-label">Female</label>
+                    </div>
+                  </div>
                 </div>
                 <div className="form-item-container__button">
                   <button type="submit" className="form-item__button">
@@ -104,7 +178,10 @@ export default function Signup() {
               <div className="login-link__container">
                 <span className="login-link__container__span">
                   Already a registered user?{" "}
-                  <Link className="login-link__container__span-link" to="/login">
+                  <Link
+                    className="login-link__container__span-link"
+                    to="/login"
+                  >
                     Login
                   </Link>
                 </span>

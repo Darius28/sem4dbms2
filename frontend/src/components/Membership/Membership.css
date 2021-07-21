@@ -3,7 +3,7 @@
   height: 100vh;
   width: 100%;
   flex-direction: column;
-  background-color: #41a239;
+  background-color: #504d49;
   align-items: center;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .membership-plan__heading {
-  color: orange;
+  color: #ea8263;
   font-size: 2rem;
   font-weight: bold;
 }
@@ -44,12 +44,12 @@
 
 .membership-plan__price {
   font-weight: 400;
-    font-size: 2rem;
-    margin: 0 auto;
-    width: 90%;
-    border: 2px solid orange;
-    border-radius: 0.5rem;
-    padding: 0.3rem;
+  font-size: 2rem;
+  margin: 0 auto;
+  width: 90%;
+  border: 2px solid #ea8263;
+  border-radius: 0.5rem;
+  padding: 0.3rem;
 }
 
 .membership-benefits {
@@ -68,8 +68,13 @@
 }
 
 .membership-plan__add {
-  background-color: #ed4a4a;
+  background-color: #417058;
   color: white;
   padding: 0.4rem;
-    border-radius: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.membership-plan__add:hover {
+  opacity: 0.8;
 }

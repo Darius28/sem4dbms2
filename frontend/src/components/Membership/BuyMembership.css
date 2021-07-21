@@ -1,0 +1,23 @@
+.navbar-padding {
+  height: 5rem;
+}
+
+.buy-membership-title {
+  font-size: 1.7rem;
+  text-align: center;
+  padding-bottom: 3rem;
+  padding-top: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.1rem;
+}
+
+.buy-membership-form-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.mem-form-item {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem;
+}

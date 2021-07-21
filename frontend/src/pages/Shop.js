@@ -16,7 +16,11 @@ export default function Shop() {
             <p>20-30% off on select merchandise.</p>
             <p>Buy Now!</p>
           </div>
+          
         </div>
+        <div className="shop-items">
+            <p className="shop-items__heading">FitLife Home Equipments</p>
+          </div>
       </div>
     </>
   );

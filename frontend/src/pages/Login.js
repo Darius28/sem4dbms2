@@ -33,12 +33,18 @@ export default function Login() {
             type: "LOGIN",
             payload: res.data,
           });
-          localStorage.setItem("user", JSON.stringify(res.data))
+          dispatch({
+            type: "LOGGED_IN",
+            payload: true,
+          });
+          localStorage.setItem("user", JSON.stringify(res.data));
+          localStorage.setItem("loggedIn", true);
+          history.replace("/");
         });
       //   toast.success("Signup  Login to Proceed.");
-      emailRef.current.value = "";
-      passRef.current.value = "";
-      history.replace("/");
+      // emailRef.current.value = "";
+      // passRef.current.value = "";
+      // history.replace("/");
     } catch (err) {
       console.log(err);
       toast.error(err.response.data);

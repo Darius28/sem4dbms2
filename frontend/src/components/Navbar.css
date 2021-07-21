@@ -25,6 +25,10 @@
   letter-spacing: 0.3rem;
 }
 
+.main-header__title__link {
+  color: black;
+}
+
 .main-nav {
   vertical-align: middle;
 }
@@ -76,4 +80,12 @@ a {
 
 .red {
   color: red;
+}
+
+.workout-link {
+  color: rgb(26, 158, 26);
+}
+
+.workout-link:hover {
+  color: black;
 }

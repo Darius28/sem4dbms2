@@ -2,7 +2,7 @@ import React from "react";
 import Backdrop from "./Backdrop";
 import Navbar from "./Navbar";
 import IntroText from "./IntroText";
-import Membership from "./Membership"
+import Membership from "./Membership/Membership"
 import "./MainLayout.css";
 import UserButtons from "./UserButtons";
 import { ToastContainer, toast } from "react-toastify";
