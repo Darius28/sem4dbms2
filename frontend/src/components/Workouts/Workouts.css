@@ -18,4 +18,23 @@
   padding: 0.5rem;
 }
 
+.form-item__label {
+  color: black;
+  padding-right: 1rem;
+}
 
+.form-item__input {
+  width: 10rem;
+}
+
+.form-item__button {
+  justify-content: center;
+  padding: 0.5rem;
+  display: flex;
+}
+
+.workout-item__button {
+  justify-content: center;
+  padding: 0.5rem;
+  display: flex;
+}

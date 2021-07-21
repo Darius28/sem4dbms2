@@ -20,45 +20,49 @@ export default function BuyMembership() {
           <div className="buy-membership-title">
             <span>BUY MEMBERSHIP</span>
           </div>
-          <form className="form">
-            <div className="buy-membership-form-container">
-              <div className="mem-form-item">
-                <label>Name: </label>
-                <input type="text" />
-              </div>
-              <div className="mem-form-item">
-                <label>Amount: </label>
-                <input type="number" />
-              </div>
-              <div className="mem-form-item">
-                <label>Package: </label>
-                <input type="text" />
-              </div>
-              <div className="mem-form-item">
-                <label>Duration: </label>
-                <input type="text" />
-              </div>
-              <div className="mem-form-item">
-                <label>Street: </label>
-                <input type="text" />
-              </div>
-              <div className="mem-form-item">
-                <label>City: </label>
-                <input type="text" />
-              </div>
-              <div className="mem-form-item">
-                <label>State: </label>
-                <input type="text" />
-              </div>
-              <div className="mem-form-item">
-                <label>Pincode: </label>
-                <input type="number" />
-              </div>
-              <div className="mem-form-item">
-                <button onClick={addMembershipHandler}>Start Membership</button>
-              </div>
+          <div className="buy-membership-form-container">
+            <div className="membership-form">
+              <form>
+                <div className="mem-item">
+                  <label className="form-item__label">Name </label>
+                  <input type="text" />
+                </div>
+                <div className="mem-item">
+                  <label className="form-item__label">Amount </label>
+                  <input type="number" />
+                </div>
+                <div className="mem-item">
+                  <label className="form-item__label">Package </label>
+                  <input type="text" />
+                </div>
+                <div className="mem-item">
+                  <label className="form-item__label">Duration </label>
+                  <input type="text" />
+                </div>
+                <div className="mem-item">
+                  <label className="form-item__label">Street </label>
+                  <input type="text" />
+                </div>
+                <div className="mem-item">
+                  <label className="form-item__label">City </label>
+                  <input type="text" />
+                </div>
+                <div className="mem-item">
+                  <label className="form-item__label">State </label>
+                  <input type="text" />
+                </div>
+                <div className="mem-item">
+                  <label className="form-item__label">Pincode </label>
+                  <input type="number" />
+                </div>
+                <div className="mem-item__button">
+                  <button onClick={addMembershipHandler}>
+                    Start Membership
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </>

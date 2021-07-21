@@ -42,7 +42,7 @@ export default function Membership() {
         {MEMBERSHIP_TIERS.map((tier) => (
           <div className="membership-plan">
             <p className="membership-plan__heading">{`Tier ${tier.id}`}</p>
-            <p className="membership-plan__duration">{`${tier.durationduration} Months`}</p>
+            <p className="membership-plan__duration">{`${tier.duration} Months`}</p>
             <p className="membership-plan__desc">
               {`Personalized Sessions ${tier.personal} times / week`}
             </p>

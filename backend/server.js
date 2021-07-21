@@ -94,7 +94,7 @@ app.post("/users/login", async (req, res) => {
         } else {
           // return res.send("Email Found!")
           // console.log(rows[0].sno)
-
+          console.log("ROWS[0]", rows[0]);
           const hpass = rows[0].hpassword;
           const match = await comparePassword(password, hpass);
           if (match === false) {

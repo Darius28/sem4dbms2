@@ -12,12 +12,37 @@
 }
 
 .buy-membership-form-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: center;
 }
 
-.mem-form-item {
+.membership-form {
   display: flex;
-  justify-content: space-around;
-  margin: 1rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20rem;
+  width: 50%;
 }
+
+.mem-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.mem-item__button {
+  justify-content: center;
+  padding: 0.5rem;
+  display: flex;
+}
+
+.form-item__label {
+  color: black;
+  padding-right: 1rem;
+}
+
+
+
+
+
