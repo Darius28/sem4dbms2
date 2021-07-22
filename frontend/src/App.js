@@ -2,9 +2,10 @@ import "./App.css";
 import React, { useContext } from "react";
 import MainLayout from "./components/MainLayout";
 import { Switch, Route } from "react-router-dom";
+
+import Workouts from "./components/Workouts/Workouts";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Workouts from "./components/Workouts/Workouts";
 
 import { UserContext } from "./context/auth-context";
 import BuyMembership from "./components/Membership/BuyMembership";

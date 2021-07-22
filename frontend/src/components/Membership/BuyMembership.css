@@ -37,7 +37,7 @@
   display: flex;
 }
 
-.form-item__label {
+.workout-form-item__label {
   color: black;
   padding-right: 1rem;
 }

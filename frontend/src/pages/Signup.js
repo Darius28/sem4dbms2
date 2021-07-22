@@ -50,11 +50,6 @@ export default function Signup() {
           phoneRef.current.value = "";
           dateRef.current.value = "";
         });
-      // toast.success("Signup successful! Login to Proceed.");
-      // nameRef.current.value = "";
-      // emailRef.current.value = "";
-      // passRef.current.value = "";
-      // cpassRef.current.value = "";
     } catch (err) {
       console.log(err);
       toast.error(err.response.data);
@@ -77,17 +72,17 @@ export default function Signup() {
           <div className="signup-form-container">
             <div className="signup-form">
               <form className="form" onSubmit={onSubmitHandler}>
-                <div className="form-item">
-                  <label className="form-item__label">Name </label>
+                <div className="signup-form-item">
+                  <label className="signup-form-item__label">Name </label>
                   <input
                     className="form-item__input"
                     type="text"
-                    ref={nameRef} 
+                    ref={nameRef}
                     required
                   />
                 </div>
-                <div className="form-item">
-                  <label className="form-item__label">Username </label>
+                <div className="signup-form-item">
+                  <label className="signup-form-item__label">Username </label>
                   <input
                     className="form-item__input"
                     type="text"
@@ -95,8 +90,8 @@ export default function Signup() {
                     required
                   />
                 </div>
-                <div className="form-item">
-                  <label className="form-item__label">Email </label>
+                <div className="signup-form-item">
+                  <label className="signup-form-item__label">Email </label>
                   <input
                     className="form-item__input"
                     type="email"
@@ -104,8 +99,8 @@ export default function Signup() {
                     required
                   />
                 </div>
-                <div className="form-item">
-                  <label className="form-item__label">Password </label>
+                <div className="signup-form-item">
+                  <label className="signup-form-item__label">Password </label>
                   <input
                     className="form-item__input"
                     type="password"
@@ -113,8 +108,10 @@ export default function Signup() {
                     required
                   />
                 </div>
-                <div className="form-item">
-                  <label className="form-item__label">Confirm Password </label>
+                <div className="signup-form-item">
+                  <label className="signup-form-item__label">
+                    Confirm Password{" "}
+                  </label>
                   <input
                     className="form-item__input"
                     type="password"
@@ -122,8 +119,8 @@ export default function Signup() {
                     required
                   />
                 </div>
-                <div className="form-item">
-                  <label className="form-item__label">Phone No. </label>
+                <div className="signup-form-item">
+                  <label className="signup-form-item__label">Phone No. </label>
                   <input
                     className="form-item__input"
                     type="tel"
@@ -131,8 +128,10 @@ export default function Signup() {
                     required
                   />
                 </div>
-                <div className="form-item">
-                  <label className="form-item__label">Date of Birth </label>
+                <div className="signup-form-item">
+                  <label className="signup-form-item__label">
+                    Date of Birth{" "}
+                  </label>
                   <input
                     className="form-item__input"
                     type="date"
@@ -140,17 +139,16 @@ export default function Signup() {
                     required
                   />
                 </div>
-                <div className="form-item">
+                <div className="signup-form-item__radio">
                   <div>
-                    <label className="form-item__label">Gender: </label>
+                    <label className="signup-form-item__label">Gender: </label>
                   </div>
-                  <div className="gender-radio">
+                  <div className="signup-gender-radio">
                     <div>
                       <input
                         onChange={handleGenderChange}
                         name="gender"
-                        value="male"
-                        className="form-item__input"
+                        value="male"                        
                         type="radio"
                         required
                       />
@@ -161,7 +159,6 @@ export default function Signup() {
                         onChange={handleGenderChange}
                         name="gender"
                         value="female"
-                        className="form-item__input"
                         type="radio"
                         required
                       />
@@ -170,7 +167,7 @@ export default function Signup() {
                   </div>
                 </div>
                 <div className="form-item-container__button">
-                  <button type="submit" className="form-item__button">
+                  <button type="submit">
                     Sign Up
                   </button>
                 </div>

@@ -9,18 +9,21 @@ const MEMBERSHIP_TIERS = [
     duration: 3,
     personal: 2,
     price: 9990,
+    tier: "Tier 1",
   },
   {
     id: 2,
     duration: 6,
     personal: 3,
     price: 15990,
+    tier: "Tier 2",
   },
   {
     id: 3,
     duration: 12,
     personal: 4,
     price: 18990,
+    tier: "Tier 3",
   },
 ];
 
@@ -62,7 +65,9 @@ export default function Membership() {
           </div>
         ))}
       </div>
-      <h1 className="membership-header">Membership Benefits</h1>
+      <div>
+        <h1 className="membership-header">Membership Benefits</h1>
+      </div>
       <div className="membership-benefits">
         <p>Buy now, start anytime</p>
         <p>Pause membership anytime</p>

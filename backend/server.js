@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const app = express();
 require("dotenv").config();
 import { hashPassword, comparePassword } from "./utils/password";
@@ -103,6 +103,7 @@ app.post("/users/login", async (req, res) => {
             const loginTime = new Date().toLocaleString();
 
             return res.json({
+              email: rows[0].email,
               username: rows[0].username,
               name: rows[0].name,
               loginTime,
