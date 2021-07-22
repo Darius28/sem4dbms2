@@ -140,7 +140,121 @@ app.post("/users/add-gym-membership", async (req, res) => {
   try {
     const { username, amount, pack, duration, street, city, state, pincode } =
       req.body;
-    console.log(req.body);
+
+    const addMainDataQuery = `INSERT INTO membershipdata4 (username, packagename, street, city) VALUES (?, ?, ?, ?)`;
+
+    const packageExistsQuery = `SELECT packagename from membershipdata1 WHERE packagename = '${pack}'`;
+    const addNewPackageQuery = `INSERT INTO membershipdata1 (packagename, amount, duration) VALUES (?, ?, ?)`;
+
+    const streetExistsHandler = `SELECT street from membershipdata3 WHERE street = '${street}'`;
+    const addNewStreetHandler = `INSERT INTO membershipdata3 (street, city, pincode) VALUES (?, ?, ?)`;
+
+    const cityExistsHandler = `SELECT city from membershipdata2 WHERE city = '${city}'`;
+    const addNewCityHandler = `INSERT INTO membershipdata2 (city, state) VALUES (?, ?)`;
+
+    // ====== Adding to membershipdata4, compulsory for all users ======
+
+    connection.query(
+      addMainDataQuery,
+      [username, pack, street, city],
+      (err, rows) => {
+        if (!err) {
+          console.log("MAIN DATA QUERY EXECUTED SUCCESSFULLY!");
+        } else {
+          console.log("MAIN DATA QUERY FAILED: ", err);
+          return res.sendStatus(400);
+        }
+      }
+    );
+
+    // ====== Checking if 'packagename' exists in membershipdata1 ======
+
+    connection.query(packageExistsQuery, async (err, rows) => {
+      if (!err) {
+        if (rows.length === 0) {
+          // === since packagename doesn't exist here, we add a new package ===
+          connection.query(
+            addNewPackageQuery,
+            [pack, amount, duration],
+            async (err, rows) => {
+              if (!err) {
+                console.log("ADD NEW PACKAGE QUERY SUCCESS!");
+              } else {
+                console.log("ADD NEW PACKAGE QUERY ERROR:", err);
+                return res.sendStatus(400);
+              }
+            }
+          );
+        }
+      } else {
+        console.log("PACKAGE EXISTS QUERY ERROR: ", err);
+        return res.sendStatus(400);
+      }
+      res.json({ ok: true });
+    });
+
+    // ====== Checking if 'street' exists in membershipdata3 ======
+
+    connection.query(streetExistsHandler, async (err, rows) => {
+      if (!err) {
+        if (rows.length === 0) {
+          // === Since street doesn't exist here, we add new street ===
+          connection.query(
+            addNewStreetHandler,
+            [street, city, pincode],
+            async (err, rows) => {
+              if (!err) {
+                console.log("ADD NEW STREET HANDLER SUCCESS: ");
+              } else {
+                console.log("ADD NEW STREET HANDLER ERROR: ", err);
+                return res.sendStatus(400);
+              }
+            }
+          );
+          // === Also, after this, we have to add required data to membershipdata2 as well ===
+          connection.query(
+            addNewCityHandler,
+            [city, state],
+            async (err, rows) => {
+              if (!err) {
+                console.log("ADD NEW CITY HANDLER SUCCESS");
+              } else {
+                console.log("ADD NEW CITY HANDLER ERROR: ", err);
+                return res.sendStatus(400);
+              }
+            }
+          );
+        } else {
+          // === Here, since street exists, we check if 'city' exists in membershipdata2 beforehand ===
+          connection.query(cityExistsHandler, async (err, rows) => {
+            if (!err) {
+              console.log("NEW CITY EXISTS HANDLER SUCCESS!");
+              if (rows.length === 0) {
+                // === Here, since city doesn't exist, we add data to membershipdata2 ===
+                connection.query(
+                  addNewCityHandler,
+                  [city, state],
+                  async (err, rows) => {
+                    if (!err) {
+                      console.log("ADD NEW CITY HANDLER SUCCESS");
+                    } else {
+                      console.log("ADD NEW CITY HANDLER ERROR: ", err);
+                      return res.sendStatus(400);
+                    }
+                  }
+                );
+              }
+            } else {
+              console.log("NEW CITY EXISTS HANDLER ERROR: ", err);
+              return res.sendStatus(400);
+            }
+          });
+        }
+      } else {
+        console.log("STREET EXISTS HANDLER ERROR: ", err);
+        return res.sendStatus(400);
+      }
+    });
     res.json({ ok: true });
   } catch (err) {
     console.log(err);
