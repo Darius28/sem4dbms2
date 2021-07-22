@@ -3,6 +3,7 @@ import Navbar from "../Navbar";
 import "../Membership/BuyMembership.css";
 import "./Workouts.css";
 import { ToastContainer } from "react-toastify";
+import WorkoutLog from "./WorkoutLog";
 
 export default function Workouts() {
   return (
@@ -22,7 +23,9 @@ export default function Workouts() {
                 <input className="form-item__input" type="text" />
               </div>
               <div className="workout-item">
-                <label className="workout-form-item__label">Workout Type </label>
+                <label className="workout-form-item__label">
+                  Workout Type{" "}
+                </label>
                 <select name="workout" className="form-item__input">
                   <option value="workout 1">Workout 1</option>
                   <option value="workout 2">Workout 2</option>
@@ -39,7 +42,9 @@ export default function Workouts() {
                 <input className="form-item__input" type="number" />
               </div>
               <div className="workout-item">
-                <label className="workout-form-item__label">Duration (min) </label>
+                <label className="workout-form-item__label">
+                  Duration (min){" "}
+                </label>
                 <input className="form-item__input" type="number" />
               </div>
               <div className="workout-item">
@@ -52,6 +57,10 @@ export default function Workouts() {
             </form>
           </div>
         </div>
+      </div>
+      <hr />
+      <div>
+        <WorkoutLog />
       </div>
     </>
   );

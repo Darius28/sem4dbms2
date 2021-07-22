@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Navbar() {
   const history = useHistory();
+  console.log("HISTORY: ", history.location.pathname);
   const [current, setCurrent] = useState("");
   const handleClick = () => {};
   const userCtx = useContext(UserContext);
@@ -69,12 +70,21 @@ export default function Navbar() {
               <li className="main-nav__item green">
                 <Menu.Item key="mail" icon={<StarOutlined />}>
                   {" "}
-                  <a
-                    className="nav-link green"
-                    href="#membership-plans-container"
-                  >
-                    MEMBERSHIP
-                  </a>
+                  {history.location.pathname === "/" ? (
+                    <a
+                      className="nav-link green"
+                      href="#membership-plans-container"
+                    >
+                      MEMBERSHIP
+                    </a>
+                  ) : (
+                    <Link
+                      className="nav-link green"
+                      to="/membership/buy-membership"
+                    >
+                      MEMBERSHIP
+                    </Link>
+                  )}
                 </Menu.Item>
               </li>
               {userData && (
@@ -98,6 +108,7 @@ export default function Navbar() {
               {userData && (
                 <li className="main-nav__item red" onClick={logoutHandler}>
                   <Menu.Item key="mail" icon={<LogoutOutlined />}>
+                    {" "}
                     Logout
                   </Menu.Item>
                 </li>
