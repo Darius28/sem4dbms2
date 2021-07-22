@@ -136,17 +136,14 @@ app.post("/users/record-session", async (req, res) => {
   );
 });
 
-app.get("/admin/members", async (req, res) => {
-  const email = "admin@fitlife.com";
+app.post("/users/add-gym-membership", async (req, res) => {
   try {
-    const getMembersQuery = "SELECT * FROM userdata2 WHERE email != ?";
-    connection.query(getMembersQuery, [email], async (err, rows, fields) => {
-      if (!err) {
-        return res.send(rows);
-      }
-    });
+    const { username, amount, pack, duration, street, city, state, pincode } =
+      req.body;
+    console.log(req.body);
+    res.json({ ok: true });
   } catch (err) {
-    return res.status(400).send(err);
+    console.log(err);
   }
 });
 
