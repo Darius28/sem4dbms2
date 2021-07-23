@@ -148,10 +148,10 @@ app.post("/users/add-gym-membership", async (req, res) => {
     const packageExistsQuery = `SELECT * from membershipdata1 WHERE packagename = '${pack}'`;
     const addNewPackageQuery = `INSERT INTO membershipdata1 (packagename, amount, duration) VALUES (?, ?, ?)`;
 
-    const streetExistsHandler = `SELECT * from membershipdata3 WHERE street = '${street}'`;
+    const streetExistsHandler = `SELECT * from membershipdata3 WHERE street = '${street}' AND city = '${city}' AND pincode = '${pincode}'`;
     const addNewStreetHandler = `INSERT INTO membershipdata3 (street, city, pincode) VALUES (?, ?, ?)`;
 
-    const cityExistsHandler = `SELECT * from membershipdata2 WHERE city = '${city}' AND state = ${state} `;
+    const cityExistsHandler = `SELECT * from membershipdata2 WHERE city = '${city}' AND state = '${state}'`;
     const addNewCityHandler = `INSERT INTO membershipdata2 (city, state) VALUES (?, ?)`;
 
     // ====== Checking if 'packagename' exists in membershipdata1 ======
@@ -242,13 +242,13 @@ app.post("/users/add-gym-membership", async (req, res) => {
           } else {
             console.log("STREET EXISTS HANDLER ERROR: ", err);
             reject(err);
-           
           }
         });
       });
     };
     // ====== Checking if 'street' exists in membershipdata3 ======
     // ====== Adding to membershipdata4, compulsory for all users ======
+    // const addMainDataQuery = `INSERT INTO membershipdata4 (username, packagename, street, city) VALUES (?, ?, ?, ?)`;
     const query4 = () => {
       return new Promise((resolve, reject) => {
         connection.query(
@@ -269,6 +269,10 @@ app.post("/users/add-gym-membership", async (req, res) => {
     };
 
     query1()
+      .then((msg) => console.log(msg))
+      .catch((err) => console.log(err));
+
+    query2()
       .then((msg) => console.log(msg))
       .catch((err) => console.log(err));
 
