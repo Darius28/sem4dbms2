@@ -243,7 +243,7 @@ app.post("/users/add-gym-membership", async (req, res) => {
                 }
               );
             } else {
-              resolve("data exists")
+              resolve("data exists");
             }
           } else {
             console.log("STREET EXISTS HANDLER ERROR: ", err);
@@ -300,6 +300,90 @@ app.post("/users/add-gym-membership", async (req, res) => {
     console.log("TRY CATCH ERROR: ");
     console.log(err);
   }
+});
+
+app.post("/users/add-new-workout", async (req, res) => {
+  const { username, workout, date, calories, duration, time } = req.body;
+  console.log("TIME: ", time);
+
+  const addWorkoutData2Query = `INSERT INTO workoutdata2 (username, date, workouttype) VALUES (?, ?, ?)`;
+  const workoutExistsHandler = `SELECT * FROM workoutdata2 where username = '${username}' AND date = '${date}'`;
+
+  const duplicateExistsHandler = `SELECT * FROM workoutdata1 where username = '${username}' AND date = '${date}' AND time = '${time}'`;
+  const addWorkoutData1Query = `INSERT INTO workoutdata1 (username, date, time, calories, duration) VALUES (?, ?, ?, ?, ?)`;
+
+  const query1 = () => {
+    return new Promise((resolve, reject) => {
+      connection.query(workoutExistsHandler, (err, rows) => {
+        if (!err) {
+          if (rows.length === 0) {
+            connection.query(
+              addWorkoutData2Query,
+              [username, date, workout],
+              (err, rows) => {
+                if (!err) {
+                  console.log("ADD DATA TO WORKOUTDATA2 SUCCESS!");
+                  resolve("success");
+                } else {
+                  console.log("ADD DATA TO WORKOUTDATA2 FAILED");
+                  reject(err);
+                }
+              }
+            );
+            resolve("success");
+          } else {
+            resolve("Workout exists");
+          }
+        } else {
+          console.log("WORKOUT EXISTS HANDLER FAILED.");
+          reject(err);
+        }
+      });
+    });
+  };
+
+  const query2 = () => {
+    return new Promise((resolve, reject) => {
+      connection.query(duplicateExistsHandler, (err, rows) => {
+        if (!err) {
+          if (rows.length === 0) {
+            connection.query(
+              addWorkoutData1Query,
+              [username, date, time, calories, duration],
+              (err, rows) => {
+                if (!err) {
+                  console.log("ADD DATA TO WORKOUTDATA1 SUCCESS!");
+                  resolve("success");
+                } else {
+                  console.log("ADD DATA TO WORKOUTDATA1 FAILED");
+                  console.log(err);
+                  reject(err);
+                }
+              }
+            );
+            resolve("success");
+          } else {
+            resolve("user and workout log exists");
+          }
+        } else {
+          console.log("WORKOUT EXISTS HANDLER FAILED.");
+          reject(err);
+        }
+      });
+    });
+  };
+
+  query1()
+    .then((msg) => {
+      console.log("query 1 msg: ", msg);
+      query2()
+        .then((msg) => {
+          console.log("query 2 msg: ", msg);
+        })
+        .catch((err) => console.log(err));
+    })
+    .catch((err) => console.log(err));
+  res.json({ ok: true });
 });
 
 app.listen(PORT, () => console.log(`App Listening on PORT ${PORT}`));
