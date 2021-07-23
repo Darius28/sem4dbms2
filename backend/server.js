@@ -177,6 +177,8 @@ app.post("/users/add-gym-membership", async (req, res) => {
                   }
                 }
               );
+            } else {
+              resolve("data exists");
             }
           } else {
             console.log("PACKAGE EXISTS QUERY ERROR: ", err);
@@ -209,6 +211,8 @@ app.post("/users/add-gym-membership", async (req, res) => {
                   }
                 }
               );
+            } else {
+              resolve("data exists");
             }
           } else {
             console.log("NEW CITY EXISTS HANDLER ERROR: ", err);
@@ -238,6 +242,8 @@ app.post("/users/add-gym-membership", async (req, res) => {
                   }
                 }
               );
+            } else {
+              resolve("data exists")
             }
           } else {
             console.log("STREET EXISTS HANDLER ERROR: ", err);
@@ -269,19 +275,23 @@ app.post("/users/add-gym-membership", async (req, res) => {
     };
 
     query1()
-      .then((msg) => console.log(msg))
-      .catch((err) => console.log(err));
-
-    query2()
-      .then((msg) => console.log(msg))
-      .catch((err) => console.log(err));
-
-    query3()
-      .then((msg) => console.log(msg))
-      .catch((err) => console.log(err));
-
-    query4()
-      .then((msg) => console.log(msg))
+      .then((msg) => {
+        console.log("query 1 msg: ", msg);
+        query2()
+          .then((msg) => {
+            console.log("query 2 msg: ", msg);
+            query3()
+              .then((msg) => {
+                query4()
+                  .then((msg) => {
+                    console.log("query 4 msg: ", msg);
+                  })
+                  .catch((err) => console.log(err));
+              })
+              .catch((err) => console.log(err));
+          })
+          .catch((err) => console.log(err));
+      })
       .catch((err) => console.log(err));
 
     res.json({ ok: true });
