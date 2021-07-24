@@ -106,6 +106,7 @@ app.post("/users/login", async (req, res) => {
               email: rows[0].email,
               username: rows[0].username,
               name: rows[0].name,
+              membership: rows[0].membership,
               loginTime,
             });
           }
@@ -138,12 +139,21 @@ app.post("/users/record-session", async (req, res) => {
 
 app.post("/users/add-gym-membership", async (req, res) => {
   try {
-    const { username, amount, pack, duration, street, city, state, pincode } =
-      req.body;
+    const {
+      username,
+      amount,
+      pack,
+      duration,
+      street,
+      city,
+      state,
+      pincode,
+      joindate,
+    } = req.body;
 
     console.log(req.body);
 
-    const addMainDataQuery = `INSERT INTO membershipdata4 (username, packagename, street, city) VALUES (?, ?, ?, ?)`;
+    const addMainDataQuery = `INSERT INTO membershipdata4 (username, packagename, street, city, joindate) VALUES (?, ?, ?, ?, ?)`;
 
     const packageExistsQuery = `SELECT * from membershipdata1 WHERE packagename = '${pack}'`;
     const addNewPackageQuery = `INSERT INTO membershipdata1 (packagename, amount, duration) VALUES (?, ?, ?)`;
@@ -153,6 +163,8 @@ app.post("/users/add-gym-membership", async (req, res) => {
 
     const cityExistsHandler = `SELECT * from membershipdata2 WHERE city = '${city}' AND state = '${state}'`;
     const addNewCityHandler = `INSERT INTO membershipdata2 (city, state) VALUES (?, ?)`;
+
+    const updateGymMembershipStatus = `UPDATE userdata2 set membership = 'yes' WHERE username = '${username}'`;
 
     // ====== Checking if 'packagename' exists in membershipdata1 ======
 
@@ -259,7 +271,7 @@ app.post("/users/add-gym-membership", async (req, res) => {
       return new Promise((resolve, reject) => {
         connection.query(
           addMainDataQuery,
-          [username, pack, street, city],
+          [username, pack, street, city, joindate],
           (err, rows) => {
             if (!err) {
               console.log("MAIN DATA QUERY EXECUTED SUCCESSFULLY!");
@@ -271,6 +283,19 @@ app.post("/users/add-gym-membership", async (req, res) => {
             }
           }
         );
+      });
+    };
+    const query5 = () => {
+      return new Promise((resolve, reject) => {
+        connection.query(updateGymMembershipStatus, (err, rows) => {
+          if (!err) {
+            console.log("FLAG IN USERDATA2 SET SUCCESSFULLY!");
+            resolve("success");
+          } else {
+            console.log(err);
+            reject(err);
+          }
+        });
       });
     };
 
@@ -285,6 +310,12 @@ app.post("/users/add-gym-membership", async (req, res) => {
                 query4()
                   .then((msg) => {
                     console.log("query 4 msg: ", msg);
+                    query5()
+                      .then((msg) => {
+                        console.log(msg);
+                        res.status(200).send({ member: true });
+                      })
+                      .catch((err) => console.log(err));
                   })
                   .catch((err) => console.log(err));
               })
@@ -293,8 +324,6 @@ app.post("/users/add-gym-membership", async (req, res) => {
           .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
-
-    res.json({ ok: true });
   } catch (err) {
     // res.sendStatus(400)
     console.log("TRY CATCH ERROR: ");
@@ -384,6 +413,37 @@ app.post("/users/add-new-workout", async (req, res) => {
     })
     .catch((err) => console.log(err));
   res.json({ ok: true });
+});
+
+app.post("/users/get-membership-data", async (req, res) => {
+  console.log(req.body);
+  const { username } = req.body;
+  const getMembershipDetailsQuery = `select c.*, d.joindate from membershipdata1 c natural join membershipdata4 d where username = '${username}' AND packagename = ( select packagename from membershipdata4 where username = '${username}');`;
+
+  const query1 = () => {
+    return new Promise((resolve, reject) => {
+      connection.query(getMembershipDetailsQuery, (err, rows) => {
+        if (!err) {
+          console.log(rows[0].packagename);
+          console.log("ROWS[0]: ", rows[0]);
+          resolve({
+            packagename: rows[0].packagename,
+            amount: rows[0].amount,
+            duration: rows[0].duration,
+            joindate: rows[0].joindate
+          });
+        } else {
+          reject(err);
+        }
+      });
+    });
+  };
+
+  query1()
+    .then((obj) => {
+      res.status(200).send(obj);
+    })
+    .catch((err) => console.log(err));
 });
 
 app.listen(PORT, () => console.log(`App Listening on PORT ${PORT}`));

@@ -40,7 +40,7 @@ export default function Login() {
           localStorage.setItem("user", JSON.stringify(res.data));
           localStorage.setItem("loggedIn", true);
           history.replace("/");
-        });
+        })
       //   toast.success("Signup  Login to Proceed.");
       // emailRef.current.value = "";
       // passRef.current.value = "";

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./Navbar.css";
 import axios from "axios";
@@ -20,10 +20,12 @@ export default function Navbar() {
   const [current, setCurrent] = useState("");
   const handleClick = () => {};
   const userCtx = useContext(UserContext);
+  const { state } = useContext(UserContext);
   const userData = userCtx.state.user;
   const isAdmin = userCtx.state.admin;
 
   const [logout, setLogout] = useState(false);
+  const [membership, setMembership] = useState("");
 
   const logoutHandler = async () => {
     try {
@@ -51,6 +53,12 @@ export default function Navbar() {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("user"))) {
+      setMembership(JSON.parse(localStorage.getItem("user")).membership);
+    }
+  }, []);
 
   return (
     <>
@@ -80,7 +88,11 @@ export default function Navbar() {
                   ) : (
                     <Link
                       className="nav-link green"
-                      to="/membership/buy-membership"
+                      to={
+                        membership === "yes"
+                          ? "/"
+                          : "/membership/buy-membership"
+                      }
                     >
                       MEMBERSHIP
                     </Link>

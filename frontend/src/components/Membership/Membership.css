@@ -78,3 +78,27 @@
 .membership-plan__add:hover {
   opacity: 0.8;
 }
+
+.membership-header__details {
+  color: white;
+}
+
+.active-membership-container {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  border: 2px solid #ea8263;
+  border-radius: 0.5rem;
+  padding: 0.6rem;
+  color: white;
+}
+
+.active-membership__details {
+  display: flex;
+  height: 3rem;
+  justify-content: space-between;
+}
+
+.padding-bottom {
+  height: 5rem;
+}

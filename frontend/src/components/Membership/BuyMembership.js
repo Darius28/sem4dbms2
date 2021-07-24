@@ -4,8 +4,10 @@ import { ToastContainer } from "react-toastify";
 import { UserContext } from "../../context/auth-context";
 import "./BuyMembership.css";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 export default function BuyMembership() {
+  const history = useHistory();
   const streetRef = useRef();
   const cityRef = useRef();
   const stateRef = useRef();
@@ -33,6 +35,7 @@ export default function BuyMembership() {
       const city = cityRef.current.value;
       const state = stateRef.current.value;
       const pincode = pincodeRef.current.value;
+      const joindate = new Date().toLocaleDateString();
       const { data } = await axios.post(
         "http://localhost:4000/users/add-gym-membership",
         {
@@ -44,8 +47,19 @@ export default function BuyMembership() {
           city,
           state,
           pincode,
+          joindate,
         }
       );
+      console.log(data.member);
+      if (data.member === true) {
+        let status = JSON.parse(localStorage.getItem("user"));
+        console.log(status);
+        status.membership = "yes";
+        status.joindate = joindate;
+        localStorage.setItem("user", JSON.stringify(status));
+        console.log(status);
+      }
+      history.replace("/");
     } catch (err) {
       console.log(err);
     }

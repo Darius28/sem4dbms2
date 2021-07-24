@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function Workouts() {
   const [username, setUsername] = useState("");
-  const [workout, setWorkout] = useState("workout 1");
+  const [workout, setWorkout] = useState("");
 
   const dateRef = useRef();
   const caloriesRef = useRef();
@@ -23,6 +23,9 @@ export default function Workouts() {
 
   const addWorkoutHandler = async (e) => {
     e.preventDefault();
+    if (workout === "") {
+      console.log("add workout");
+    }
     try {
       const date = dateRef.current.value;
       const calories = caloriesRef.current.value;
@@ -74,6 +77,7 @@ export default function Workouts() {
                   name="workout"
                   className="form-item__input"
                 >
+                  <option value="">=== Select Workout ===</option>
                   <option value="workout 1">Workout 1</option>
                   <option value="workout 2">Workout 2</option>
                   <option value="workout 3">Workout 3</option>
