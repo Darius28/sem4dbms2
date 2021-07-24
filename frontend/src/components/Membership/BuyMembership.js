@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import Navbar from "../Navbar";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { UserContext } from "../../context/auth-context";
 import "./BuyMembership.css";
 import axios from "axios";
@@ -50,6 +50,7 @@ export default function BuyMembership() {
           joindate,
         }
       );
+      localStorage.setItem("membershipBought", true);
       console.log(data.member);
       if (data.member === true) {
         let status = JSON.parse(localStorage.getItem("user"));
@@ -59,6 +60,7 @@ export default function BuyMembership() {
         localStorage.setItem("user", JSON.stringify(status));
         console.log(status);
       }
+      toast.success("Membership Bought Successfully!");
       history.replace("/");
     } catch (err) {
       console.log(err);

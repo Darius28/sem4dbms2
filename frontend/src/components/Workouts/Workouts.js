@@ -2,13 +2,15 @@ import React, { useRef, useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import "../Membership/BuyMembership.css";
 import "./Workouts.css";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import WorkoutLog from "./WorkoutLog";
 import axios from "axios";
 
 export default function Workouts() {
   const [username, setUsername] = useState("");
   const [workout, setWorkout] = useState("");
+  const [table, showTable] = useState(false);
+  const [workoutArray, setWorkoutArray] = useState([]);
 
   const dateRef = useRef();
   const caloriesRef = useRef();
@@ -23,19 +25,25 @@ export default function Workouts() {
 
   const addWorkoutHandler = async (e) => {
     e.preventDefault();
-    if (workout === "") {
-      console.log("add workout");
-    }
     try {
       const date = dateRef.current.value;
       const calories = caloriesRef.current.value;
       const duration = durationRef.current.value;
       const time = timeRef.current.value;
-
+      if (workout === "") {
+        toast.error("Select Workout Type.");
+        return;
+      }
+      console.log("data: ", username, workout, date, calories, duration, time);
       const { data } = await axios.post(
         "http://localhost:4000/users/add-new-workout",
         { username, workout, date, calories, duration, time }
       );
+      toast.success("Workout Added Successfully!");
+      dateRef.current.value = "";
+      caloriesRef.current.value = "";
+      durationRef.current.value = "";
+      timeRef.current.value = "";
     } catch (err) {
       console.log(err);
     }
@@ -44,6 +52,21 @@ export default function Workouts() {
   const handleWorkoutChange = (e) => {
     setWorkout(e.target.value);
     console.log(e.target.value, "workout type changed!");
+  };
+
+  const showWorkoutsHandler = async () => {
+    showTable(!table);
+    try {
+      console.log("name", username);
+      const { data } = await axios.post(
+        "http://localhost:4000/users/get-user-workouts",
+        { username }
+      );
+      console.log("data", data);
+      setWorkoutArray(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -59,7 +82,7 @@ export default function Workouts() {
           <div className="workout-form">
             <form onSubmit={addWorkoutHandler}>
               <div className="workout-item">
-                <label className="workout-form-item__label">Name </label>
+                <label className="workout-form-item__label">Userame </label>
                 <input
                   className="form-item__input"
                   type="text"
@@ -77,20 +100,26 @@ export default function Workouts() {
                   name="workout"
                   className="form-item__input"
                 >
-                  <option value="">=== Select Workout ===</option>
-                  <option value="workout 1">Workout 1</option>
-                  <option value="workout 2">Workout 2</option>
-                  <option value="workout 3">Workout 3</option>
-                  <option value="workout 4">Workout 4</option>
+                  <option value="">== Select Workout ==</option>
+                  <option value="Leg Day">Leg Day</option>
+                  <option value="Dance">Dance</option>
+                  <option value="Cardio">Cardio</option>
+                  <option value="Chest Day">Chest Day</option>
                 </select>
               </div>
               <div className="workout-item">
                 <label className="workout-form-item__label">Date </label>
-                <input className="form-item__input" type="date" ref={dateRef} />
+                <input
+                  className="form-item__input"
+                  type="date"
+                  ref={dateRef}
+                  required
+                />
               </div>
               <div className="workout-item">
                 <label className="workout-form-item__label">Calories </label>
                 <input
+                  required
                   className="form-item__input"
                   type="number"
                   ref={caloriesRef}
@@ -104,11 +133,17 @@ export default function Workouts() {
                   className="form-item__input"
                   type="number"
                   ref={durationRef}
+                  required
                 />
               </div>
               <div className="workout-item">
                 <label className="workout-form-item__label">Time (24H) </label>
-                <input className="form-item__input" type="time" ref={timeRef} />
+                <input
+                  required
+                  className="form-item__input"
+                  type="time"
+                  ref={timeRef}
+                />
               </div>
               <div className="workout-item__button">
                 <button type="submit">Add Workout</button>
@@ -118,9 +153,16 @@ export default function Workouts() {
         </div>
       </div>
       <hr />
-      <div>
-        <WorkoutLog />
+      <div className="show-workouts-button">
+        <button onClick={showWorkoutsHandler}> Show All Workouts </button>
       </div>
+
+      {table && (
+        <div>
+          <WorkoutLog workoutArray={workoutArray} />
+        </div>
+      )}
+      <div className="padding-bottom"></div>
     </>
   );
 }

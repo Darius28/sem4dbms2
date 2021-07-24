@@ -29,30 +29,64 @@ const MEMBERSHIP_TIERS = [
 ];
 
 export default function Membership() {
+  const { state, dispatch } = useContext(UserContext);
   const [membership, setMembership] = useState("");
   const [packagename, setPackagename] = useState("");
   const [amount, setAmount] = useState("");
   const [duration, setDuration] = useState("");
   const [joinDate, setJoinDate] = useState("");
   useEffect(() => {
-    const getData = async () => {
-      const username = JSON.parse(localStorage.getItem("user")).username;
-      const { data } = await axios.post(
-        "http://localhost:4000/users/get-membership-data",
-        {
-          username,
-        }
-      );
-      console.log(data);
-      setPackagename(data.packagename);
-      setAmount(data.amount);
-      setDuration(data.duration);
-      setJoinDate(data.joindate);
-    };
-    getData();
-    setMembership(JSON.parse(localStorage.getItem("user")).membership);
+    console.log(localStorage.getItem("membershipBought"));
+    if (localStorage.getItem("membershipBought")) {
+      console.log("piece of shit stmt ran");
+      const getData = async () => {
+        const username = JSON.parse(localStorage.getItem("user")).username;
+        console.log("get membership data exec");
+        const { data } = await axios.post(
+          "http://localhost:4000/users/get-membership-data",
+          {
+            username,
+          }
+        );
+        console.log(data);
+        setPackagename(data.packagename);
+        setAmount(data.amount);
+        setDuration(data.duration);
+        setJoinDate(data.joindate);
+      };
+      getData();
+    }
+    if (JSON.parse(localStorage.getItem("user"))) {
+      if (JSON.parse(localStorage.getItem("user")).membership) {
+        const getData = async () => {
+          const username = JSON.parse(localStorage.getItem("user")).username;
+          console.log("get membership data exec");
+          const { data } = await axios.post(
+            "http://localhost:4000/users/get-membership-data",
+            {
+              username,
+            }
+          );
+          console.log(data);
+          setPackagename(data.packagename);
+          setAmount(data.amount);
+          setDuration(data.duration);
+          setJoinDate(data.joindate);
+        };
+        getData();
+      }
+      console.log("setting membership status");
+      setMembership(JSON.parse(localStorage.getItem("user")).membership);
+    }
   }, []);
-  const { dispatch } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log("state changed!");
+    if (localStorage.getItem("user") === null) {
+      setMembership("");
+    }
+  }, [state]);
+
   const buyMembership = (tier) => {
     console.log(tier);
     localStorage.setItem("membership", JSON.stringify(tier));
@@ -64,7 +98,7 @@ export default function Membership() {
 
   return (
     <div className="membership-container">
-      {membership === "no" ? (
+      {membership === "no" || membership === "" ? (
         <>
           <h1 className="membership-header">Memberships For You</h1>
           <div className="membership-plans">
@@ -80,12 +114,22 @@ export default function Membership() {
                 </p>
                 <div className="membership-plan__add__container">
                   <Link to="/membership/buy-membership">
-                    <button
-                      className="membership-plan__add"
-                      onClick={buyMembership.bind(null, tier)}
-                    >
-                      BUY NOW
-                    </button>
+                    {membership === "" ? (
+                      <button
+                        disabled
+                        className="membership-plan__add"
+                        onClick={buyMembership.bind(null, tier)}
+                      >
+                        BUY NOW
+                      </button>
+                    ) : (
+                      <button
+                        className="membership-plan__add"
+                        onClick={buyMembership.bind(null, tier)}
+                      >
+                        BUY NOW
+                      </button>
+                    )}
                   </Link>
                 </div>
               </div>

@@ -38,3 +38,13 @@
   padding: 0.5rem;
   display: flex;
 }
+
+.show-workouts-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.padding-bottom {
+  height: 10rem;
+}

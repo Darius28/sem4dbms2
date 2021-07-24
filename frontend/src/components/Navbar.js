@@ -47,6 +47,7 @@ export default function Navbar() {
       localStorage.removeItem("isAdmin");
       localStorage.removeItem("loggedIn");
       localStorage.removeItem("membership");
+      localStorage.removeItem("membershipBought")
       toast("Logged out successfully!");
       history.replace("/");
     } catch (err) {

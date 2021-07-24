@@ -313,6 +313,7 @@ app.post("/users/add-gym-membership", async (req, res) => {
                     query5()
                       .then((msg) => {
                         console.log(msg);
+                        console.log("ABOUT TO SEND MEMBER");
                         res.status(200).send({ member: true });
                       })
                       .catch((err) => console.log(err));
@@ -424,24 +425,57 @@ app.post("/users/get-membership-data", async (req, res) => {
     return new Promise((resolve, reject) => {
       connection.query(getMembershipDetailsQuery, (err, rows) => {
         if (!err) {
-          console.log(rows[0].packagename);
+          console.log(rows[0]);
           console.log("ROWS[0]: ", rows[0]);
-          resolve({
-            packagename: rows[0].packagename,
-            amount: rows[0].amount,
-            duration: rows[0].duration,
-            joindate: rows[0].joindate
-          });
+          if (rows[0] === undefined) {
+            resolve({
+              packagename: "",
+              amount: 0,
+              duration: 0,
+              joindate: "",
+            });
+          } else {
+            resolve({
+              packagename: rows[0].packagename,
+              amount: rows[0].amount,
+              duration: rows[0].duration,
+              joindate: rows[0].joindate,
+            });
+          }
         } else {
           reject(err);
         }
       });
     });
   };
-
   query1()
     .then((obj) => {
       res.status(200).send(obj);
+    })
+    .catch((err) => console.log(err));
+});
+
+app.post("/users/get-user-workouts", async (req, res) => {
+  const { username } = req.body;
+  console.log("username", username);
+  const getWorkoutDataQuery = `select d.workouttype, e.date, e.time, e.duration, e.calories from workoutdata2 d natural join workoutdata1 e where username = '${username}';`;
+
+  const query1 = () => {
+    return new Promise((resolve, reject) => {
+      connection.query(getWorkoutDataQuery, (err, rows) => {
+        if (!err) {
+          console.log(rows);
+          resolve(rows);
+        } else {
+          console.log(err);
+          reject(err);
+        }
+      });
+    });
+  };
+  query1()
+    .then((rows) => {
+      res.send(rows);
     })
     .catch((err) => console.log(err));
 });

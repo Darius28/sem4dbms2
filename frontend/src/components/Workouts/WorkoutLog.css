@@ -1,7 +1,11 @@
-.show-workout-button__container {
-  display: flex;
-  justify-content: center;
+.workout-table {
+  width: 50%;
+
 }
 
-.show-workout-button {
+.workout-table__container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
